@@ -25,7 +25,12 @@ def create_user():
     try:
         existing_user = User.query.filter_by(email=data["email"]).first()
         if existing_user:
-            return jsonify({"error": f"Email {existing_user.email} already exists"}), 409
+            return (
+                jsonify(
+                    {"error": f"Email {existing_user.email} already exists"}
+                ),
+                409,
+            )
 
         user = User(name=data["name"], email=data["email"])
         db.session.add(user)
@@ -44,18 +49,18 @@ def get_users():
     """
     try:
         users = User.query.all()
-        return jsonify(user_response_schema.dump(users), many=True)
+        return jsonify(user_response_schema.dump(users, many=True))
     except SQLAlchemyError as e:
         return jsonify({"error": "Database error", "message": str(e)}), 500
 
 
 @users_bp.route("/users/<int:id>", methods=["GET"])
-def get_user(id):
+def get_user(id: int):
     """
     Retrieve a single user by ID.
     """
     try:
-        user = User.query.get(id)
+        user = db.session.get(User, id)
         if not user:
             return jsonify({"error": "User not found"}), 404
         return jsonify(user_response_schema.dump(user))
@@ -64,12 +69,12 @@ def get_user(id):
 
 
 @users_bp.route("/users/<int:id>", methods=["PUT"])
-def update_user(id):
+def update_user(id: int):
     """
     Update an existing user data (name, email) by ID.
     """
     try:
-        user = User.query.get(id)
+        user = db.session.get(User, id)
         if not user:
             return jsonify({"error": "User not found"}), 404
 
@@ -82,6 +87,7 @@ def update_user(id):
 
         db.session.commit()
         return jsonify(user_response_schema.dump(user))
+
     except ValidationError as err:
         return jsonify({"error": err.messages}), 400
     except SQLAlchemyError as e:
@@ -92,12 +98,12 @@ def update_user(id):
 
 
 @users_bp.route("/users/<int:id>", methods=["DELETE"])
-def delete_user(id):
+def delete_user(id: int):
     """
     Delete a user by ID.
     """
     try:
-        user = User.query.get(id)
+        user = db.session.get(User, id)
         if not user:
             return jsonify({"error": "User not found"}), 404
 

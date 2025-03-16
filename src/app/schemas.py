@@ -11,11 +11,12 @@ class UserBaseSchema(Schema):
     """
     Base schema for user validation.
     """
+
     name = fields.Str(required=True)
     email = fields.Email(required=True)
 
     @validates("name")
-    def validate_name(self, name):
+    def validate_name(self, name: str) -> None:
         """
         Validate the 'name' field using the `validate_name` function.
         """
@@ -25,7 +26,7 @@ class UserBaseSchema(Schema):
             raise ValidationError(str(e))
 
     @validates("email")
-    def validate_email(self, email):
+    def validate_email(self, email: str) -> None:
         """
         Validate the 'email' field using the `validate_email` function.
         """
@@ -39,6 +40,7 @@ class UserCreateSchema(UserBaseSchema):
     """
     Schema for user creation.
     """
+
     pass
 
 
@@ -46,6 +48,7 @@ class UserUpdateSchema(UserBaseSchema):
     """
     Schema for user update.
     """
+
     pass
 
 
@@ -53,6 +56,8 @@ class UserResponseSchema(UserBaseSchema):
     """
     Schema for user response data.
     """
+
+    id = fields.Integer(dump_only=True)
     name = fields.Str(dump_only=True)
     email = fields.Email(dump_only=True)
     created_at = fields.DateTime(dump_only=True)
