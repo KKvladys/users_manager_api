@@ -21,7 +21,7 @@ class Settings:
 
     SQLALCHEMY_DATABASE_URI = (
         os.getenv("DATABASE_SQLITE_URL")
-        if ENVIRONMENT == "develop"
+        if ENVIRONMENT == "local"
         else POSTGRES_URL
     )
 
