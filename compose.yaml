@@ -23,6 +23,11 @@ services:
   web:
     build: .
     restart: always
+    command: >
+      sh -c "
+        flask --app run.py db upgrade &&
+        python run.py --host=0.0.0.0
+      "
     depends_on:
       db:
         condition: service_healthy
