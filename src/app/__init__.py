@@ -14,8 +14,6 @@ def create_app():
     migrate.init_app(app, db)
     ma.init_app(app)
 
-    with app.app_context():
-        db.create_all()
 
     app.register_blueprint(users_bp)
     app.register_blueprint(swagger_bp, url_prefix=SWAGGER_URL)
