@@ -54,12 +54,12 @@ Each user has the following attributes:
    ```
 5. **Apply database migrations:**
    ```sh
-   flask db upgrade
+   flask --app run.py db upgrade
    ```
 
 6. **Run the application:**
    ```sh
-   flask run
+   flask --app run.py run
    ```
    The API Documentation will be available at `http://127.0.0.1:5000/docs/`
 
