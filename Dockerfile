@@ -1,5 +1,3 @@
-# syntax=docker/dockerfile:1
-
 ARG PYTHON_VERSION=3.12.7
 FROM python:${PYTHON_VERSION}-slim AS base
 
@@ -10,8 +8,8 @@ ENV PYTHONDONTWRITEBYTECODE=1
 # the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
-# Install Poetry and netcat-openbsd
-RUN apt-get update && apt-get install -y netcat-openbsd \
+# Install Poetry, netcat-openbsd and PostgreSQL client
+RUN apt-get update && apt-get install -y netcat-openbsd postgresql-client \
     && pip install poetry \
     && apt-get clean
 
@@ -26,7 +24,6 @@ RUN poetry config virtualenvs.create false \
 
 # Copy the source code into the container
 COPY . /app/
-
 
 # Create a non-privileged user that the app will run under
 ARG UID=10001
@@ -46,4 +43,4 @@ USER appuser
 EXPOSE 5000
 
 # Run the application
-CMD ["python", "run.py", "--host=0.0.0.0"]
+ENTRYPOINT ["sh", "/app/entrypoint.sh"]
