@@ -14,13 +14,21 @@ class Settings:
     POSTGRES_HOST = os.getenv("POSTGRES_HOST", "db")
     POSTGRES_PORT = os.getenv("POSTGRES_PORT", 5432)
     POSTGRES_DB = os.getenv("POSTGRES_DB", "users_db")
+    POSTGRES_URL = (
+        f"postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@"
+        f"{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    )
 
-    @property
-    def DATABASE_URL(self) -> str:
-        if self.ENVIRONMENT == "develop":
-            return os.getenv("DATABASE_SQLITE_URL")
-        return (f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@"
-                f"{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}")
+    SQLALCHEMY_DATABASE_URI = (
+        os.getenv("DATABASE_SQLITE_URL")
+        if ENVIRONMENT == "local"
+        else POSTGRES_URL
+    )
 
 
-settings = Settings()
+class TestSettings:
+    """Settings for testing."""
+
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///:memory:"
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

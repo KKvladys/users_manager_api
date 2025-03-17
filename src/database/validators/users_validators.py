@@ -1,7 +1,7 @@
 import email_validator
 
 
-def validate_name(name: str):
+def validate_name(name: str) -> str:
     """
     Validate the user's name.
     """
@@ -18,7 +18,9 @@ def validate_email(user_email: str) -> str:
     'email_validator' library. It also normalizes the email if valid.
     """
     try:
-        email_info = email_validator.validate_email(user_email, check_deliverability=False)
+        email_info = email_validator.validate_email(
+            user_email, check_deliverability=False
+        )
         email = email_info.normalized
     except email_validator.EmailNotValidError as error:
         raise ValueError(str(error))

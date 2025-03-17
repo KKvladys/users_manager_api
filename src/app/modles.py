@@ -32,11 +32,11 @@ class User(db.Model):
         return f"<User {self.name}, email: {self.email}>"
 
     @validates("name")
-    def validate_name(self, key, name):
+    def validate_name(self, key, name: str) -> str:
         return validate_name(name)
 
     @validates("email")
-    def validate_email(self, key, email):
+    def validate_email(self, key, email: str) -> str:
         return validate_email(email)
 
     @classmethod

@@ -2,28 +2,18 @@
 
 ## Overview
 
-This project is a simple REST API for user management, built with Flask. It provides endpoints for creating, retrieving,
-updating, and deleting users. The API uses SQLAlchemy for database interactions and supports containerization with
-Docker.
+REST API project for user management, built with Flask.
 
-## Features
-
-- Create a new user (`POST /users`)
-- Retrieve all users (`GET /users`)
-- Retrieve a specific user (`GET /users/{id}`)
-- Update user details (`PUT /users/{id}`)
-- Delete a user (`DELETE /users/{id}`)
-- Data validation for user inputs
-- API documentation using Swagger
-- Containerized with Docker
 
 ## Technologies Used
 
-- **Flask** – Web framework for building the API
-- **SQLAlchemy** – ORM for database management (MySQL or PostgreSQL)
-- **Docker** – Containerization of the application
-- **Swagger** – API documentation
-- **Poetry** - dependency management
+- **Python**
+- **Flask**
+- **Postgres**
+- **SQLAlchemy**
+- **Docker & Docker Compose**
+- **Swagger**
+- **Poetry**
 
 ## User Model
 
@@ -34,13 +24,9 @@ Each user has the following attributes:
 - `email` (string, unique)
 - `created_at` (datetime, timestamp of creation)
 
-## Installation & Setup
+## Installation
 
-### Prerequisites
 
-- Python 3.x
-- Docker (optional but recommended)
-- PostgreSQL database
 
 ### Steps to Run
 
@@ -68,12 +54,12 @@ Each user has the following attributes:
    ```
 5. **Apply database migrations:**
    ```sh
-   flask db upgrade
+   flask --app run.py db upgrade
    ```
 
 6. **Run the application:**
    ```sh
-   flask run
+   flask --app run.py run
    ```
    The API Documentation will be available at `http://127.0.0.1:5000/docs/`
 
@@ -116,4 +102,7 @@ POSTGRES_PASSWORD=password
 POSTGRES_HOST=db
 
 ```
-
+## Testing
+```sh
+   python -m pytest
+   ```
