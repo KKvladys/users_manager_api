@@ -11,3 +11,4 @@ flask --app run db upgrade
 
 echo "Starting the Flask app..."
 exec flask --app run run --host=0.0.0.0
+
